@@ -1,3 +1,4 @@
+import logging
 from os import getenv
 
 import tweepy
@@ -26,13 +27,17 @@ def authenticate_api(api):
 
     :param api: api object
     :return: authenticated api object
+    :raises TweepError: raised due to an error Twitter Responded with or raised when an API method fails due to hitting
+    Twitter’s rate limit.
     """
+    logger = logging.getLogger()
     try:
         api.verify_credentials()
-        print("Authentication OK")
-        return api
     except tweepy.TweepError as error:
-        return error
+        logger.error("Error creating API", exc_info=True)
+        raise error
+    logger.info("API created")
+    return api
 
 
 if __name__ == "__main__":
