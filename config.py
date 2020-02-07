@@ -36,6 +36,5 @@ def authenticate_api(api):
     print("API created")
     return api
 
-
-if __name__ == "__main__":
-    create_api()
+# if __name__ == "__main__":
+#     create_api()
