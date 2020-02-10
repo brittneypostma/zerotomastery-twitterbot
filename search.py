@@ -1,13 +1,10 @@
 # This file will use the Tweepy Cursor API to reply to mentions, follow users that follow us, and a backup like and retweet
-
-# Import tweepy, time, and the create_api function from config.py
-
+# imports tweepy, time, and the create_api function from config.py
 import tweepy
-from config import create_api
 import time
+from config import create_api
 
 # Define a follow_followers function that accepts api and check if they are not followed, then follow them
-# Define a fav_retweet function that accepts api, create terms string to search for and use the tweepy.Cursor object to search those terms 100 times
 
 
 # Define a check_mentions function that accepts api, keywords, and since_id, follow and reply to the user if user has mentioned us
@@ -27,11 +24,34 @@ def check_mentions(api, keywords, since_id):
     return new_since_id
 
 
+# Define a fav_retweet function that accepts api, create terms string to search for and use the tweepy.Cursor object to search those terms 100 times
+def fav_retweet(api):
+    '''
+    This function search for tweets in the with a search criteria
+    and automatic like the tweet if the tweet has not been liked and
+    retweet the tweet if the tweet has not been retweeted
+    '''
+    search = ["#ZTM", "#Zerotomastery"]
+    for tweet in tweepy.Cursor(api.search, search).items(100):
+        try:
+            if not tweet.favorite():
+                tweet.favorite()
+                print("I have liked the tweet")
+            if not tweet.retweet():
+                tweet.retweet()
+                print('Retweeted the tweet')
+        except tweepy.TweepError as e:
+            print(e.reason)
+        except StopIteration:
+            break
+
+
 # Define a main function to connect to the api and create a since_id counter, call all above functions
 def main():
     since_id = 1
     while True:
         since_id = check_mentions(api, ["#ZTM", "#Zerotomastery"], since_id)
+        fav_retweet(api)
         time.sleep(60)
 
 
