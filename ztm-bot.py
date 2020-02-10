@@ -14,3 +14,4 @@
 # Define a main function that takes keywords and ids and connects to the tweepy stream api using those keywords and ids to track and follow
 
 # if __name__ main define keywords to search for and ids to follow and run the main function with those
+follow_list= ["224115510","2998698451","743086819"]# The first is for Andrei Neagoie, The second for Yihua Zhang and the third for Daniel Bourke Yihua Zhang and the third for Daniel Bourke 
