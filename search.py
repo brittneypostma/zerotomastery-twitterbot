@@ -25,13 +25,32 @@ def check_mentions(api, keywords, since_id):
 
 # Define a fav_retweet function that accepts api, create terms string to search for and use the tweepy.Cursor object to search those terms 100 times
 # Check if not favorited and retweeted, and then favorite or retweet, catch errors
-
+def fav_retweet(api):
+    '''
+    This function search for tweets in the with a search criteria
+    and automatic like the tweet if the tweet has not been liked and
+    retweet the tweet if the tweet has not been retweeted
+    '''
+    search = ["#ZTM", "#Zerotomastery"]
+    for tweet in tweepy.Cursor(api.search, search).items(100):
+        try:
+            if not tweet.favorite():
+                tweet.favorite()
+                print("I have liked the tweet")
+            if not tweet.retweet():
+                tweet.retweet()
+                print('Retweeted the tweet')
+        except tweepy.TweepError as e:
+            print(e.reason)
+        except StopIteration:
+            break
 # Define a main function to connect to the api and create a since_id counter, call all above functions
 def main():
     api = create_api()
     since_id = 1
     while True:
         since_id = check_mentions(api, ["#ZTM", "#Zerotomastery"], since_id)
+        fav_retweet()
         time.sleep(60)
 
 if __name__ == '__main__':
