@@ -25,6 +25,7 @@ def check_mentions(api, keywords, since_id):
 
 # Define a fav_retweet function that accepts api, create terms string to search for and use the tweepy.Cursor object to search those terms 100 times
 # Check if not favorited and retweeted, and then favorite or retweet, catch errors
+
 def fav_retweet(api):
     '''
     This function search for tweets in the with a search criteria
@@ -53,5 +54,6 @@ def main():
         fav_retweet()
         time.sleep(60)
 
+# if __name__ main, call the main function
 if __name__ == '__main__':
     main()
