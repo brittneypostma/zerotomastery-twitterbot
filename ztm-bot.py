@@ -1,5 +1,5 @@
 import tweepy
-
+import time
 from config import create_api
 
 
@@ -44,7 +44,10 @@ class Stream_Listener(tweepy.StreamListener):
         if status_code == 420:
             # returning False in on_error disconnects the stream
             return False
-        print(tweepy.TweepError, status_code)
+        elif status_code == 429:
+            time.sleep(900)
+        else:
+            print(tweepy.TweepError, status_code)
 
 
 def main(follow, keyword):
@@ -56,12 +59,14 @@ def main(follow, keyword):
     my_stream = tweepy.Stream(auth=api.auth, listener=my_stream_listener)
 
     follow_mentors = my_stream.filter(follow=follow)
-    follow_keyword = my_stream.filter(track=keyword, is_async=True, languages=["en"])
+    follow_keyword = my_stream.filter(
+        track=keyword, is_async=True, languages=["en"])
 
 
 if __name__ == '__main__':
     # The first is for Andrei Neagoie, The second for Yihua Zhang and the third for Daniel Bourke Yihua Zhang and the
     # third for Daniel Bourke
     follow_list = ["224115510", "2998698451", "743086819"]
-    keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery", "ZeroToMastery"]
+    keywords = ["#ZTM", "#Zerotomastery",
+                "#ztm", "zerotomastery", "ZeroToMastery"]
     main(follow_list, keywords)
