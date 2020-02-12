@@ -34,7 +34,7 @@ class Stream_Listener(tweepy.StreamListener):
                 tweet.retweet()
                 print('Stream retweeted', tweet.text)
             except tweepy.TweepError as error:
-                raise error
+                print(error)
 
     def on_error(self, status_code):
         """When encountering an error while listening to the stream, return False if `status_code` is 420 and print
