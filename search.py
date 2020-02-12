@@ -48,6 +48,7 @@ def fav_retweet(api):
 
 # Define a main function to connect to the api and create a since_id counter, call all above functions
 def main():
+    api = create_api()
     since_id = 1
     while True:
         since_id = check_mentions(api, ["#ZTM", "#Zerotomastery"], since_id)
