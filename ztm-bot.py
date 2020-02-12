@@ -25,14 +25,14 @@ class Stream_Listener(tweepy.StreamListener):
             # Mark it as Liked, since we have not done it yet
             try:
                 tweet.favorite()
-                print('Stream favorited', tweet.text)
+                print('Stream favorited tweet:', tweet.text)
             except tweepy.TweepError as error:
                 print(error)
         if not tweet.retweeted:
             # Retweet, since we have not retweeted it yet
             try:
                 tweet.retweet()
-                print('Stream retweeted', tweet.text)
+                print('Stream retweeted tweet:', tweet.text)
             except tweepy.TweepError as error:
                 print(error)
 
