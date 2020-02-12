@@ -60,9 +60,8 @@ def main(follow, keyword):
     my_stream_listener = Stream_Listener(api)
     my_stream = tweepy.Stream(auth=api.auth, listener=my_stream_listener)
 
-    # follow_mentors = my_stream.filter(follow=follow)
-    my_stream.filter(track=keyword, follow=follow,
-                     is_async=True, languages=["en"])
+    my_stream.filter(follow=follow)
+    my_stream.filter(track=keyword, is_async=True, languages=["en"])
 
 
 if __name__ == '__main__':
