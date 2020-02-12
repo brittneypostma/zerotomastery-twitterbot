@@ -27,7 +27,7 @@ class Stream_Listener(tweepy.StreamListener):
                 tweet.favorite()
                 print('Stream favorited', tweet.text)
             except tweepy.TweepError as error:
-                raise error
+                print(error)
         if not tweet.retweeted:
             # Retweet, since we have not retweeted it yet
             try:
