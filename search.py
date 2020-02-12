@@ -50,8 +50,10 @@ def fav_retweet(api):
 def main():
     api = create_api()
     since_id = 1
+    keywords = ["#ZTM", "#Zerotomastery",
+                "#ztm", "zerotomastery", "ZeroToMastery"]
     while True:
-        since_id = check_mentions(api, ["#ZTM", "#Zerotomastery"], since_id)
+        since_id = check_mentions(api, keywords, since_id)
         fav_retweet(api)
         time.sleep(60)
 
