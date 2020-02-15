@@ -31,7 +31,7 @@ def fav_retweet(api):
     and automatic like the tweet if the tweet has not been liked and
     retweet the tweet if the tweet has not been retweeted
     '''
-    search = ["#ZTM", "#Zerotomastery"]
+    search = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery", "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", "Daniel Bourke"]
     for tweet in tweepy.Cursor(api.search, search).items(100):
         try:
             if not tweet.favorite():
@@ -50,8 +50,9 @@ def fav_retweet(api):
 def main():
     api = create_api()
     since_id = 1
-    keywords = ["#ZTM", "#Zerotomastery",
-                "#ztm", "zerotomastery", "ZeroToMastery"]
+    keywords = [keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery", 
+                            "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", 
+                            "Daniel Bourke"]
     while True:
         since_id = check_mentions(api, keywords, since_id)
         # fav_retweet(api)
