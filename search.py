@@ -8,7 +8,8 @@ from config import create_api
 
 
 # Define a follow_followers function that accepts api and check if they are not followed, then follow them
-followed_users_ids: List[str] = []  # Todo: Is user id string or integer? Use set
+# Todo: Is user id string or integer? Use set
+followed_users_ids: List[str] = []
 
 
 def follow_followers(api):
@@ -25,7 +26,7 @@ def unfollow(api):
     """Unfollow if a followed user is no longer following."""
     for user_id in followed_users_ids:
         try:
-            if not api.exists_friendship(source_screen_name='@KC_Kellebrities',
+            if not api.exists_friendship(source_screen_name='@ZtmBot',
                                          target_id=user_id):
                 api.destroy_friendship(id=user_id)
                 time.sleep(10)
@@ -40,7 +41,7 @@ def unfollow(api):
 def check_mentions(api, keywords, since_id):
     new_since_id = since_id
     for tweet in tweepy.Cursor(api.mentions_timeline,
-                               since_id=since_id).items(100):
+                               since_id=since_id).items(25):
         new_since_id = max(tweet.id, new_since_id)
         if tweet.in_reply_to_status_id is not None:
             continue
@@ -60,8 +61,9 @@ def fav_retweet(api):
     and automatic like the tweet if the tweet has not been liked and
     retweet the tweet if the tweet has not been retweeted
     '''
-    search = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery", "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", "Daniel Bourke"]
-    for tweet in tweepy.Cursor(api.search, search).items(100):
+    search = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery",
+        "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", "Daniel Bourke"]
+    for tweet in tweepy.Cursor(api.search, search).items(25):
         try:
             if not tweet.favorite():
                 tweet.favorite()
@@ -79,11 +81,11 @@ def fav_retweet(api):
 def main():
     api = create_api()
     since_id = 1
-    keywords = [keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery", 
-                            "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", 
+    keywords = [keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery",
+                            "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang",
                             "Daniel Bourke"]
     while True:
-        since_id = check_mentions(api, keywords, since_id)
+        since_id= check_mentions(api, keywords, since_id)
         follow_followers(api)
         unfollow(api)
         # fav_retweet(api)
