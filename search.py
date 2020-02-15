@@ -1,7 +1,5 @@
 # This file will use the Tweepy Cursor API to reply to mentions, follow users that follow us, and a backup like and retweet
 # imports tweepy, time, and the create_api function from config.py
-from typing import List
-
 import tweepy
 import time
 from config import create_api
