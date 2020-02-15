@@ -47,12 +47,12 @@ def check_mentions(api, keywords, since_id):
             # if the tweet is not ours continue
             continue
         if any(keyword in tweet.text.lower() for keyword in keywords):
-            sn = tweet.user.screen_name
-            status = '@{} Zero To Mastery, ZTMBot to the rescue! zerotomastery.io/'.format(
-                sn)
+
+            status = '@' + tweet.user.screen_name + \
+                ' Zero To Mastery, ZTMBot to the rescue! zerotomastery.io/'
             api.update_status(
                 status=status, in_reply_to_status_id=tweet.id)
-            print('replied to', tweet.user)
+            print('replied to', tweet.user.screen_name)
             time.sleep(60)
     return new_since_id
 
