@@ -43,11 +43,7 @@ def check_mentions(api, keywords, since_id):
     for tweet in tweepy.Cursor(api.mentions_timeline,
                                since_id=since_id).items():
         new_since_id = max(tweet.id, new_since_id)
-        if tweet.in_reply_to_status_id is not None:
-            # if the tweet is not ours continue
-            continue
         if any(keyword in tweet.text.lower() for keyword in keywords):
-
             status = '@' + tweet.user.screen_name + \
                 ' Zero To Mastery, ZTMBot to the rescue! zerotomastery.io/'
             api.update_status(
