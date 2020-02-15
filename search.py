@@ -48,7 +48,7 @@ def check_mentions(api, keywords, since_id):
             continue
         if any(keyword in tweet.text.lower() for keyword in keywords):
             sn = tweet.user.screen_name
-            status = '@{} Zero To Mastery, ZTMBot to the rescue! https://zerotomastery.io/'.format(
+            status = '@{} Zero To Mastery, ZTMBot to the rescue! zerotomastery.io/'.format(
                 sn)
             api.update_status(
                 status=status, in_reply_to_status_id=tweet.id)
