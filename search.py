@@ -51,6 +51,7 @@ def check_mentions(api, keywords, since_id):
 
             api.update_status(status="Zero To Mastery, ZTMBot to the rescue! https://zerotomastery.io/",
                               in_reply_to_status_id=tweet.id,  auto_populate_reply_metadata=True)
+            print('replied to', tweet.user)
     return new_since_id
 
 
