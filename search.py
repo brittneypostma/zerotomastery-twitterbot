@@ -41,17 +41,25 @@ def unfollow(api):
 def check_mentions(api, keywords, since_id):
     new_since_id = since_id
     for tweet in tweepy.Cursor(api.mentions_timeline,
-                               since_id=since_id).items(25):
+                               since_id=since_id).items(10):
         new_since_id = max(tweet.id, new_since_id)
         if tweet.in_reply_to_status_id is not None:
             continue
         if any(keyword in tweet.text.lower() for keyword in keywords):
             if not tweet.user.following:
                 tweet.user.follow()
-
-            api.update_status(status="Zero To Mastery, ZTMBot to the rescue! https://zerotomastery.io/",
-                              in_reply_to_status_id=tweet.id,  auto_populate_reply_metadata=True)
-            print('replied to', tweet.user)
+            try:
+                currentID = tweet.id
+                if currentID > tweet.id:
+                    sn = tweet.user.screen_name
+                    status = '@{} Zero To Mastery, ZTMBot to the rescue! https://zerotomastery.io/'.format(
+                        sn)
+                    api.update_status(
+                        status=status, in_reply_to_status_id=tweet.id, auto_populate_reply_metadata=True)
+                    print('replied to', tweet.user)
+                    time.sleep(60)
+            except tweepy.TweepError as e:
+                print(e)
     return new_since_id
 
 
