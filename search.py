@@ -1,10 +1,39 @@
 # This file will use the Tweepy Cursor API to reply to mentions, follow users that follow us, and a backup like and retweet
 # imports tweepy, time, and the create_api function from config.py
+from typing import List
+
 import tweepy
 import time
 from config import create_api
 
+
 # Define a follow_followers function that accepts api and check if they are not followed, then follow them
+followed_users_ids: List[str] = []  # Todo: Is user id string or integer? Use set
+
+
+def follow_followers(api):
+    """Follow all followers."""
+    for follower in tweepy.Cursor(api.followers).items():
+        if not follower.following:
+            follower.follow()
+            followed_users_ids.append(follower.id)
+            print('Followed ', follower.name)
+
+
+# Todo: Rename to unfollow_non_followers?
+def unfollow(api):
+    """Unfollow if a followed user is no longer following."""
+    for user_id in followed_users_ids:
+        try:
+            if not api.exists_friendship(source_screen_name='@KC_Kellebrities',
+                                         target_id=user_id):
+                api.destroy_friendship(id=user_id)
+                time.sleep(10)
+                followed_users_ids.remove(user_id)
+                print("Unfollowed:", user_id)
+        except tweepy.RateLimitError:
+            print("Rate Limit Exceeded")
+            time.sleep(900)
 
 
 # Define a check_mentions function that accepts api, keywords, and since_id, follow and reply to the user if user has mentioned us
@@ -55,10 +84,11 @@ def main():
                             "Daniel Bourke"]
     while True:
         since_id = check_mentions(api, keywords, since_id)
+        follow_followers(api)
+        unfollow(api)
         # fav_retweet(api)
         time.sleep(60)
 
 
-# if __name__ main, call the main function
 if __name__ == "__main__":
     main()
