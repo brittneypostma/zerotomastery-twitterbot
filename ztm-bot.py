@@ -69,6 +69,5 @@ if __name__ == '__main__':
     # third for Daniel Bourke
     follow_list = ["224115510", "2998698451", "743086819"]
     keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery",
-                "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang",
-                "Daniel Bourke", "z2m"]
+                "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", "Daniel Bourke"]
     main(follow_list, keywords)
