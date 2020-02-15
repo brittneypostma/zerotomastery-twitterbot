@@ -84,9 +84,9 @@ def fav_retweet(api):
 def main():
     api = create_api()
     since_id = 1
-    keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
     while True:
-        since_id = check_mentions(api, keywords, since_id)
+        since_id = check_mentions(
+            api, ["ZtmBot", "ztmBot", "@ZTMBot"], since_id)
         follow_followers(api)
         unfollow(api)
         # fav_retweet(api)
