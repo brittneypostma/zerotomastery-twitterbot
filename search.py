@@ -54,7 +54,7 @@ def main():
                 "#ztm", "zerotomastery", "ZeroToMastery"]
     while True:
         since_id = check_mentions(api, keywords, since_id)
-        fav_retweet(api)
+        # fav_retweet(api)
         time.sleep(60)
 
 
