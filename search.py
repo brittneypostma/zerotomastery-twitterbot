@@ -82,7 +82,7 @@ def main():
     since_id = 1
     while True:
         since_id = check_mentions(
-            api, ["ZtmBot", "ztmBot"], since_id)
+            api, ["ZtmBot", "ztmBot", "@ZtmBot"], since_id)
         follow_followers(api)
         unfollow(api)
         # fav_retweet(api)
