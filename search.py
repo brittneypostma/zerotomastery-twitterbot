@@ -50,7 +50,7 @@ def check_mentions(api, keywords, since_id):
                 tweet.user.follow()
 
             api.update_status(status="\"while(!( succeed = try_again() ) )\" \nZero To Mastery, ZTMBot to the rescue! \nhttps://zerotomastery.io/",
-                              in_reply_to_status_id=tweet.id)
+                              in_reply_to_status_id=tweet.id, auto_populate_reply_metadata=True)
     return new_since_id
 
 
@@ -81,9 +81,7 @@ def fav_retweet(api):
 def main():
     api = create_api()
     since_id = 1
-    keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery",
-                "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang",
-                "Daniel Bourke"]
+    keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
     while True:
         since_id = check_mentions(api, keywords, since_id)
         follow_followers(api)
