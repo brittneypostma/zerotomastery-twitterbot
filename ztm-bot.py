@@ -67,7 +67,7 @@ def main(follow, keyword):
 if __name__ == '__main__':
     # The first is for Andrei Neagoie, The second for Yihua Zhang and the third for Daniel Bourke Yihua Zhang and the
     # third for Daniel Bourke
-    follow_list = ["36686876", "224115510", "2998698451", "743086819"]
+    follow_list = ["224115510", "2998698451", "743086819"]
     keywords = ["#ZTM", "#Zerotomastery",
                 "#ztm", "zerotomastery", "ZeroToMastery"]
     main(follow_list, keywords)
