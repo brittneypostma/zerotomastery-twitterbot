@@ -49,7 +49,7 @@ def check_mentions(api, keywords, since_id):
             if not tweet.user.following:
                 tweet.user.follow()
 
-            api.update_status(status="\"while(!( succeed = try_again() ) )\" \nZero To Mastery, ZTMBot to the rescue! \nhttps://zerotomastery.io/",
+            api.update_status(status='\"while(!( succeed = try_again() ) )\" \nZero To Mastery, ZTMBot to the rescue! \nhttps://zerotomastery.io/',
                               in_reply_to_status_id=tweet.id, auto_populate_reply_metadata=True)
     return new_since_id
 
