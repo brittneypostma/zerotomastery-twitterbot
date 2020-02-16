@@ -40,12 +40,12 @@ def unfollow(api):
 # Define a check_mentions function that accepts api, keywords, and since_id, follow and reply to the user if user has mentioned us
 def check_mentions(api, keywords, since_id):
     new_since_id = since_id
-    replied = False
     for tweet in tweepy.Cursor(api.mentions_timeline,
                                since_id=since_id).items():
         new_since_id = max(tweet.id, new_since_id)
         try:
-            if replied:
+            if tweet.in_reply_to_status_id is not None:
+                # Tweet is a reply
                 break
             elif any(keyword in tweet.text for keyword in keywords):
                 status = '@' + tweet.user.screen_name + \
@@ -53,13 +53,11 @@ def check_mentions(api, keywords, since_id):
                 api.update_status(
                 status=status, in_reply_to_status_id=tweet.id_str)
                 print('replied to', tweet.user.screen_name)
-                replied = True
                 time.sleep(60)
             else:
                 pass
         except tweepy.TweepError as e:
             print("Error replying", e)
-    replied = False
     return new_since_id
 
 
