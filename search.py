@@ -53,7 +53,7 @@ def check_mentions(api, keywords, since_id):
                 api.update_status(
                 status=status, in_reply_to_status_id=tweet.id_str)
                 print('replied to', tweet.user.screen_name)
-                time.sleep(60)
+                time.sleep(900)
             else:
                 pass
         except tweepy.TweepError as e:
@@ -89,7 +89,7 @@ def main():
     api = create_api()
     since_id = 1
     while True:
-        check_mentions(api, ["ZtmBot", "ztmBot", "@ZtmBot"], since_id)
+        # check_mentions(api, ["ZtmBot", "ztmBot", "@ZtmBot"], since_id)
         follow_followers(api)
         unfollow(api)
         # fav_retweet(api)
