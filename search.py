@@ -59,6 +59,7 @@ def check_mentions(api, keywords, since_id):
                 pass
         except tweepy.TweepError as e:
             print("Error replying", e)
+    replied = False
     return new_since_id
 
 
