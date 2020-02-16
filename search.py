@@ -43,13 +43,18 @@ def check_mentions(api, keywords, since_id):
     for tweet in tweepy.Cursor(api.mentions_timeline,
                                since_id=since_id).items():
         new_since_id = max(tweet.id, new_since_id)
-        if any(keyword in tweet.text for keyword in keywords):
-            status = '@' + tweet.user.screen_name + \
+        try:
+            if any(keyword in tweet.text for keyword in keywords):
+                status = '@' + tweet.user.screen_name + \
                 ' Zero To Mastery, ZTMBot to the rescue! zerotomastery.io/'
-            api.update_status(
+                api.update_status(
                 status=status, in_reply_to_status_id=tweet.id_str)
-            print('replied to', tweet.user.screen_name)
-            time.sleep(60)
+                print('replied to', tweet.user.screen_name)
+                time.sleep(60)
+            else:
+                pass
+        except tweepy.TweepError as e:
+            print("Error replying", e)
     return new_since_id
 
 
