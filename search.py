@@ -1,7 +1,6 @@
-# This file will use the Tweepy Cursor API to reply to mentions, follow users that follow us, and a backup like and retweet
-# imports tweepy, time, and the create_api function from config.py
-from typing import List
-
+"""Twitter bot to engage with followers and react to mentions and
+ relevant tweets.
+"""
 import tweepy
 import time
 from config import create_api
@@ -39,16 +38,18 @@ def unfollow_non_followers(api):
 def reply_to_mention(api, tweet, keywords):
     """Reply to a non-reply mention containing any of the keywords."""
     try:
-        if tweet.user.id == api.me().id:
+        if tweet.user.id == api.me().id or tweet.in_reply_to_status_id:
             return None
         text = tweet.text.lower()
-        print(f'Checking tweet {tweet.id}...')
-        if tweet.in_reply_to_status_id is None and any(
-                keyword.lower() in text for keyword in keywords):
-            print(f'\n\nReplying to tweet {tweet.id}...')
+        print(f'Checking tweet {tweet.id} by @{tweet.user.screen_name}...')
+        if not keywords or any(keyword.lower() in text for keyword in keywords):
+            print(f'\n\nReplying to tweet {tweet.id} by @'
+                  f'{tweet.user.screen_name}...')
             status = (f'@{tweet.user.screen_name} Zero To Mastery, ZTMBot to'
                       ' the rescue!\nzerotomastery.io/')
-            api.update_status(status=status, in_reply_to_status_id=tweet.id_str)
+            api.update_status(status=status,
+                              in_reply_to_status_id=tweet.id_str,
+                              auto_populate_reply_metadata=True)
             print('Replied to', tweet.user.screen_name)
             time.sleep(10)
     except tweepy.TweepError as e:
@@ -105,22 +106,23 @@ def main():
     api = create_api()
     reply_since_id = 1
     fav_since_id = 1
-    reply_keywords = ['MagicandcodeB']#["ZtmBot", "ztmBot", "@ZtmBot"]
-    fav_keywords = ['magicandcode']#["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery",
-              #"ZeroToMastery", "Andrei Neagoie", "Yihua Zhang", "Daniel Bourke"]
+    reply_keywords = []
+    fav_keywords = ["#ZTM", "#Zerotomastery", "#ztm", "zerotomastery",
+                    "ZeroToMastery", "Andrei Neagoie", "Yihua Zhang",
+                    "Daniel Bourke"]
     while True:
         follow_followers(api)
         unfollow_non_followers(api)
-        print('Try since_id....')
+        print('Gathering mentions...')
         reply_since_id = reply_to_mentions_since_id(api,
                                                     keywords=reply_keywords,
                                                     since_id=reply_since_id)
+        print('Gathering tweets containing keywords...')
         fav_since_id = fav_retweet_since_id(api,
                                             keywords=fav_keywords,
                                             since_id=fav_since_id)
         print('reply_since_id: ', reply_since_id)
         print('fav_since_id: ', fav_since_id)
-        # fav_retweet(api)
         print('Waiting for next poll...')
         time.sleep(60)
 
