@@ -16,7 +16,6 @@ def follow_followers(api):
     """Follow all followers."""
     for follower in tweepy.Cursor(api.followers).items():
         try:
-            print(follower.name, 'followed the bot.')
             if not follower.following:
                 follower.follow()
                 followed_users_ids.append(follower.id)
@@ -96,13 +95,13 @@ def reply_to_mentions_since_id(api, keywords, since_id) -> int:
 # Define a main function to connect to the api and create a since_id counter, call all above functions
 def main():
     api = create_api()
-    reply_since_id = 1
+    # reply_since_id = 1
     # since_id = 1
     while True:
         # check_mentions(api, ["ZtmBot", "ztmBot", "@ZtmBot"], since_id)
         follow_followers(api)
         unfollow(api)
-        reply_to_mentions_since_id(api, ["ZtmBot", "ztmBot", "@ZtmBot"], reply_since_id)
+        # reply_to_mentions_since_id(api, ["ZtmBot", "ztmBot", "@ZtmBot"], reply_since_id)
         time.sleep(60)
 
 
