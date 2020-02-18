@@ -27,14 +27,14 @@ class Stream_Listener(tweepy.StreamListener):
                 tweet.favorite()
                 print('Stream favorited tweet:', tweet.text)
             except tweepy.TweepError as error:
-                print(error)
+                print(error, tweet.text)
         if not tweet.retweeted:
             # Retweet, since we have not retweeted it yet
             try:
                 tweet.retweet()
                 print('Stream retweeted tweet:', tweet.text)
             except tweepy.TweepError as error:
-                print(error)
+                print(error, tweet.text)
 
     def on_error(self, status_code):
         """When encountering an error while listening to the stream, return False if `status_code` is 420 and print
