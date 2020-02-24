@@ -70,9 +70,9 @@ class Stream_Listener(tweepy.StreamListener):
                       f'{tweet.user.screen_name}...')
                 status = (f'@{tweet.user.screen_name} Zero To Mastery, ZTMBot to'
                           ' the rescue!\nzerotomastery.io/')
-                api.update_status(status=status,
-                                  in_reply_to_status_id=tweet.id_str,
-                                  auto_populate_reply_metadata=True)
+                self.api.update_status(status=status,
+                                       in_reply_to_status_id=tweet.id_str,
+                                       auto_populate_reply_metadata=True)
                 print('Replied to', tweet.user.screen_name)
                 time.sleep(10)
         except tweepy.TweepError as e:
