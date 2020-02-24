@@ -39,16 +39,19 @@ class Stream_Listener(tweepy.StreamListener):
         screen_name = data.get('user', {}).get('screen_name', '')
         status_id = data.get('id_str', None)
 
-        if screen_name.lower() == self.screen_name.lower():
-            return
-
-        print('[StreamListener] incoming tweet from %s (@%s):' %
-              (user_name, screen_name))
-        print('[StreamListener] '+repr(text))
-        print('[StreamListener] Replied to', data.user.screen_name)
-        status = (f'@{screen_name} Zero To Mastery, ZTMBot to'
-                  ' the rescue!\nzerotomastery.io/')
-        self.dispatcher.tweet(text=status, in_reply_to=status_id)
+        try:
+            if screen_name.lower() == self.screen_name.lower():
+                return
+            elif screen_name.lower() == 'ztmbot':
+                print('[StreamListener] incoming tweet from %s (@%s):' %
+                      (user_name, screen_name))
+                print('[StreamListener] '+repr(text))
+                print('[StreamListener] Replied to', data.user.screen_name)
+                status = (f'@{screen_name} Zero To Mastery, ZTMBot to'
+                          ' the rescue!\nzerotomastery.io/')
+                self.dispatcher.tweet(text=status, in_reply_to=status_id)
+        except tweepy.TweepError as error:
+            print(error, text)
 
     def on_status(self, tweet):
         """Checks the status of the tweet. Mark it as favourite if not already done it and retweet if not already
