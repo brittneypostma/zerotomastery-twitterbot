@@ -23,27 +23,15 @@ class Stream_Listener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id is not None or tweet.user.id == self.me.id:
             return
 
-        # Check if favorited, if not, favorite, then set is_liked to True
-        is_liked = False
-        if hasattr(tweet, str(tweet.favorited)):
-            is_liked = True
-        else:
-            try:
-                tweet.favorite()
-                is_liked = True
-                print('Stream favorited tweet:', tweet.text)
-            except tweepy.TweepError as error:
-                print(error, tweet.text)
-
         # Retweet, if not retweeted and set is_retweeted to True
-        is_retweeted = False
         if hasattr(tweet, "retweeted_status"):
             is_retweeted = True
         else:
             try:
                 tweet.retweet()
-                is_retweeted = True
-                print('Stream retweeted tweet:', tweet.text)
+                time.sleep(2)
+                tweet.favorite()
+                print('Stream retweeted and liked tweet:', tweet.text)
             except tweepy.TweepError as error:
                 print(error, tweet.text)
 
