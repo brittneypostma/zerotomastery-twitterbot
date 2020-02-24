@@ -40,9 +40,9 @@ class Stream_Listener(tweepy.StreamListener):
         status_id = data.get('id_str', None)
 
         try:
-            if screen_name.lower() == self.screen_name.lower():
+            if data.user.screen_name.lower() == self.data.user.screen_name.lower():
                 return
-            elif screen_name.lower() == 'ztmbot':
+            elif data.user.screen_name.lower() == 'ztmbot':
                 print('[StreamListener] incoming tweet from %s (@%s):' %
                       (user_name, screen_name))
                 print('[StreamListener] '+repr(text))
