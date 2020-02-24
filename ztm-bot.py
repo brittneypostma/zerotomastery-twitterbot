@@ -25,7 +25,7 @@ class Stream_Listener(tweepy.StreamListener):
 
         # Check if favorited, if not, favorite, then set is_liked to True
         is_liked = False
-        if hasattr(tweet, "favorited_status"):
+        if hasattr(tweet, str(tweet.favorited)):
             is_liked = True
         else:
             try:
