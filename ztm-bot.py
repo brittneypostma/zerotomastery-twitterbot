@@ -59,24 +59,25 @@ class Stream_Listener(tweepy.StreamListener):
 
         :param tweet: tweet from listening to the stream
         """
-        try:
-            keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
-            if tweet.user.id == api.me().id or tweet.in_reply_to_status_id:
-                return None
-            text = tweet.text.lower()
-            print(f'Checking tweet {tweet.id} by @{tweet.user.screen_name}...')
-            if not keywords or any(keyword.lower() in text for keyword in keywords):
-                print(f'\n\nReplying to tweet {tweet.id} by @'
-                      f'{tweet.user.screen_name}...')
-                status = (f'@{tweet.user.screen_name} Zero To Mastery, ZTMBot to'
-                          ' the rescue!\nzerotomastery.io/')
-                self.api.update_status(status=status,
-                                       in_reply_to_status_id=tweet.id_str,
-                                       auto_populate_reply_metadata=True)
-                print('Replied to', tweet.user.screen_name)
-                time.sleep(10)
-        except tweepy.TweepError as e:
-            print("Error replying", e)
+        print(self, tweet)
+        # try:
+        #     keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
+        #     if tweet.user.id == api.me().id or tweet.in_reply_to_status_id:
+        #         return None
+        #     text = tweet.text.lower()
+        #     print(f'Checking tweet {tweet.id} by @{tweet.user.screen_name}...')
+        #     if not keywords or any(keyword.lower() in text for keyword in keywords):
+        #         print(f'\n\nReplying to tweet {tweet.id} by @'
+        #               f'{tweet.user.screen_name}...')
+        #         status = (f'@{tweet.user.screen_name} Zero To Mastery, ZTMBot to'
+        #                   ' the rescue!\nzerotomastery.io/')
+        #         api.update_status(status=status,
+        #                                in_reply_to_status_id=tweet.id_str,
+        #                                auto_populate_reply_metadata=True)
+        #         print('Replied to', tweet.user.screen_name)
+        #         time.sleep(10)
+        # except tweepy.TweepError as e:
+        #     print("Error replying", e)
 
         # This tweet is a reply or I'm its author so, ignore it
         if tweet.in_reply_to_status_id is not None or tweet.user.id == self.me.id:
