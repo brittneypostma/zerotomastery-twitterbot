@@ -27,19 +27,19 @@ def follow_followers(api):
 
 
 # Todo: Rename to unfollow_non_followers?
-def unfollow(api):
-    """Unfollow if a followed user is no longer following."""
-    for user_id in followed_users_ids:
-        try:
-            if not api.exists_friendship(source_screen_name='@ZtmBot',
-                                         target_id=user_id):
-                api.destroy_friendship(id=user_id)
-                time.sleep(10)
-                followed_users_ids.remove(user_id)
-                print("Unfollowed:", user_id)
-        except tweepy.RateLimitError:
-            print("Rate Limit Exceeded")
-            time.sleep(900)
+# def unfollow(api):
+#     """Unfollow if a followed user is no longer following."""
+#     for user_id in followed_users_ids:
+#         try:
+#             if not api.exists_friendship(source_screen_name='@ZtmBot',
+#                                          target_id=user_id):
+#                 api.destroy_friendship(id=user_id)
+#                 time.sleep(10)
+#                 followed_users_ids.remove(user_id)
+#                 print("Unfollowed:", user_id)
+#         except tweepy.RateLimitError:
+#             print("Rate Limit Exceeded")
+#             time.sleep(900)
 
 def reply_to_mention(api, tweet, keywords):
     """Reply to a non-reply mention containing any of the keywords."""
@@ -60,6 +60,7 @@ def reply_to_mention(api, tweet, keywords):
             time.sleep(900)
     except tweepy.TweepError as e:
         print("Error replying", e)
+
 
 def reply_to_mentions_since_id(api, keywords, since_id) -> int:
     """Get new since_id after replying to mentions."""
@@ -93,6 +94,8 @@ def reply_to_mentions_since_id(api, keywords, since_id) -> int:
 #     return new_since_id
 
 # Define a main function to connect to the api and create a since_id counter, call all above functions
+
+
 def main():
     api = create_api()
     # reply_since_id = 1
@@ -100,7 +103,7 @@ def main():
     while True:
         # check_mentions(api, ["ZtmBot", "ztmBot", "@ZtmBot"], since_id)
         follow_followers(api)
-        unfollow(api)
+        # unfollow(api)
         # reply_to_mentions_since_id(api, ["ZtmBot", "ztmBot", "@ZtmBot"], reply_since_id)
         time.sleep(60)
 
