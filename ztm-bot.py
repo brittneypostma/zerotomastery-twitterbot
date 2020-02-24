@@ -14,44 +14,44 @@ class Stream_Listener(tweepy.StreamListener):
         self.api = api
         self.me = api.me()
 
-    def on_data(self, raw_data):
-        data = json.loads(raw_data)
-        if (data.get('event') == 'follow' and
-                data.get('target', {}).get('screen_name').lower() == self.screen_name.lower()):
-            user_id = data.get('source', {}).get('id_str', '')
-            user_name = data.get('source', {}).get('name', '')
-            screen_name = data.get('source', {}).get('screen_name', '')
-            print('[StreamListener] we were followed by %s (@%s), refollow!' % (
-                user_name, screen_name))
-            try:
-                self.dispatcher.api.create_friendship(user_id=user_id)
-            except:
-                print('[StreamListener] failed!')
-            return
+    # def on_data(self, raw_data):
+    #     data = json.loads(raw_data)
+    #     if (data.get('event') == 'follow' and
+    #             data.get('target', {}).get('screen_name').lower() == self.screen_name.lower()):
+    #         user_id = data.get('source', {}).get('id_str', '')
+    #         user_name = data.get('source', {}).get('name', '')
+    #         screen_name = data.get('source', {}).get('screen_name', '')
+    #         print('[StreamListener] we were followed by %s (@%s), refollow!' % (
+    #             user_name, screen_name))
+    #         try:
+    #             self.dispatcher.api.create_friendship(user_id=user_id)
+    #         except:
+    #             print('[StreamListener] failed!')
+    #         return
 
-        if 'in_reply_to_status_id' not in data or 'retweeted_status' in data:
-            return
+    #     if 'in_reply_to_status_id' not in data or 'retweeted_status' in data:
+    #         return
 
-        text = data.get('extended_tweet', {}).get(
-            'full_text', data.get('text', ''))
-        text = html.unescape(text)
-        user_name = data.get('user', {}).get('name', '')
-        screen_name = data.get('user', {}).get('screen_name', '')
-        status_id = data.get('id_str', None)
+    #     text = data.get('extended_tweet', {}).get(
+    #         'full_text', data.get('text', ''))
+    #     text = html.unescape(text)
+    #     user_name = data.get('user', {}).get('name', '')
+    #     screen_name = data.get('user', {}).get('screen_name', '')
+    #     status_id = data.get('id_str', None)
 
-        try:
-            if data.user.screen_name.lower() == self.data.user.screen_name.lower():
-                return
-            elif data.user.screen_name.lower() == 'ztmbot':
-                print('[StreamListener] incoming tweet from %s (@%s):' %
-                      (user_name, screen_name))
-                print('[StreamListener] '+repr(text))
-                print('[StreamListener] Replied to', data.user.screen_name)
-                status = (f'@{screen_name} Zero To Mastery, ZTMBot to'
-                          ' the rescue!\nzerotomastery.io/')
-                self.dispatcher.tweet(text=status, in_reply_to=status_id)
-        except tweepy.TweepError as error:
-            print(error, text)
+    #     try:
+    #         if data.user.screen_name.lower() == self.data.user.screen_name.lower():
+    #             return
+    #         elif data.user.screen_name.lower() == 'ztmbot':
+    #             print('[StreamListener] incoming tweet from %s (@%s):' %
+    #                   (user_name, screen_name))
+    #             print('[StreamListener] '+repr(text))
+    #             print('[StreamListener] Replied to', data.user.screen_name)
+    #             status = (f'@{screen_name} Zero To Mastery, ZTMBot to'
+    #                       ' the rescue!\nzerotomastery.io/')
+    #             self.dispatcher.tweet(text=status, in_reply_to=status_id)
+    #     except tweepy.TweepError as error:
+    #         print(error, text)
 
     def on_status(self, tweet):
         """Checks the status of the tweet. Mark it as favourite if not already done it and retweet if not already
@@ -59,6 +59,24 @@ class Stream_Listener(tweepy.StreamListener):
 
         :param tweet: tweet from listening to the stream
         """
+        try:
+            keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
+            if tweet.user.id == api.me().id or tweet.in_reply_to_status_id:
+                return None
+            text = tweet.text.lower()
+            print(f'Checking tweet {tweet.id} by @{tweet.user.screen_name}...')
+            if not keywords or any(keyword.lower() in text for keyword in keywords):
+                print(f'\n\nReplying to tweet {tweet.id} by @'
+                      f'{tweet.user.screen_name}...')
+                status = (f'@{tweet.user.screen_name} Zero To Mastery, ZTMBot to'
+                          ' the rescue!\nzerotomastery.io/')
+                api.update_status(status=status,
+                                  in_reply_to_status_id=tweet.id_str,
+                                  auto_populate_reply_metadata=True)
+                print('Replied to', tweet.user.screen_name)
+                time.sleep(10)
+        except tweepy.TweepError as e:
+            print("Error replying", e)
 
         # This tweet is a reply or I'm its author so, ignore it
         if tweet.in_reply_to_status_id is not None or tweet.user.id == self.me.id:
