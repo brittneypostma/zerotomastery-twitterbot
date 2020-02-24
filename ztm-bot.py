@@ -59,7 +59,7 @@ class Stream_Listener(tweepy.StreamListener):
 
         :param tweet: tweet from listening to the stream
         """
-        print('self:', self, 'tweet:', tweet)
+        # print('self:', self, 'tweet:', tweet)
         # try:
         #     keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
         #     if tweet.user.id == api.me().id or tweet.in_reply_to_status_id:
