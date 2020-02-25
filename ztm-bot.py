@@ -59,6 +59,7 @@ class Stream_Listener(tweepy.StreamListener):
 
         :param tweet: tweet from listening to the stream
         """
+        print(self.api)
         # print('self:', self, 'tweet:', tweet)
         # try:
         #     keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
