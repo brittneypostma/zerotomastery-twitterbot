@@ -59,7 +59,8 @@ class Stream_Listener(tweepy.StreamListener):
 
         :param tweet: tweet from listening to the stream
         """
-        print(hasattr(tweet, "replied"))
+
+        #  try to reply to mention or catch error
         try:
             api = self.api
             keywords = ["ZtmBot", "ztmBot", "@ZtmBot"]
