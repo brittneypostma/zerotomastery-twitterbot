@@ -5,4 +5,5 @@ This twitter bot is for the ZTM community that will automatically like, follow, 
 
 Contributors are Brittney Postma, Ayush, smtomega, magicandcode, Macchester92
 
-(ZTMBot on Twitter)[https://twitter.com/ZtmBot]
+ZTMBot on Twitter
+https://twitter.com/ZtmBot
