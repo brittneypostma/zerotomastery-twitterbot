@@ -15,4 +15,4 @@ https://twitter.com/ZtmBot
 - [Tweepy Streaming Docs](http://docs.tweepy.org/en/latest/streaming_how_to.html)
 - [Tutorial](https://realpython.com/twitter-bot-python-tweepy/)
 - [Twitter ID finder](https://codeofaninja.com/tools/find-twitter-id)
-- There are also many videos on youtube, some are helpful others are not so much. Use those with caution as they are very basic descriptions. You may also use the [Andrei's Python Course](https://www.udemy.com/course/complete-python-developer-zero-to-mastery/learn/lecture/16138371#overview)Section 17, videos 227-231.
+- There are also many videos on youtube, some are helpful others are not so much. Use those with caution as they are very basic descriptions. You may also use the [Andrei's Python Course](https://www.udemy.com/course/complete-python-developer-zero-to-mastery/learn/lecture/16138371#overview) Section 17, videos 227-231.
